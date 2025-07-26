@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <title th:text="${todo.id != null} ? 'Editar TODO' : 'Crear TODO Nuevo'">Formulario TODO</title>
+    <link rel="stylesheet" href="/css/styles.css" /> <!-- opcional -->
+</head>
+<body>
+    <h1 th:text="${todo.id != null} ? 'Editar TODO' : 'Crear TODO Nuevo'"></h1>
+    
+    <form th:action="@{/todos/guardar}" method="post" th:object="${todo}">
+        <!-- Si es edición, mandamos el id oculto -->
+        <input type="hidden" th:if="${todo.id != null}" th:field="*{id}" />
+        
+        <div>
+            <label for="title">Título:</label>
+            <input type="text" id="title" th:field="*{title}" required />
+        </div>
+        
+        <div>
+            <label for="completed">Completado:</label>
+            <input type="checkbox" id="completed" th:field="*{completed}" />
+        </div>
+        
+        <div>
+            <label for="userId">Usuario:</label>
+            <select id="userId" name="userId" required>
+                <option value="" disabled th:selected="${todo.user == null}">-- Selecciona un usuario --</option>
+                <option th:each="user : ${usuarios}"
+                        th:value="${user.id}"
+                        th:text="${user.username}"
+                        th:selected="${todo.user != null && user.id == todo.user.id}">
+                </option>
+            </select>
+        </div>
+        
+        <div>
+            <button type="submit">Guardar</button>
+            <a th:href="@{/todos}">Cancelar</a>
+        </div>
+    </form>
+</body>
+</html>

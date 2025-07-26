@@ -1,0 +1,60 @@
+
+
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: #f9f9f9;
+    text-align: center;
+    padding: 50px;
+}
+
+.filtros{
+    margin-bottom:2vh;
+}
+
+.titulo2{
+        padding: 8px 16px;
+    border: none;
+    background-color: #007BFF;
+    color: white;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+h1, h2{
+    color: #333;
+    margin-bottom:2vh;
+}
+
+
+table{
+    margin: 0 auto;
+    border-collapse: collapse;
+    width: 80%;
+    margin-bottom:2vh;
+    margin-top:2vh;
+}
+
+table,th,td{
+    border: 1px solid #ccc;
+}
+
+th,td {
+    padding: 12px;
+}
+
+a {
+    color: #007BFF;
+    text-decoration: none;
+    margin-bottom:1vh;
+}
+
+button {
+    padding: 8px 16px;
+    border: none;
+    background-color: #007BFF;
+    color: white;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
