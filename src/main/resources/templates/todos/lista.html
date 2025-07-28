@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <title>Lista de TODOS</title>
+    <link rel="stylesheet" href="/css/styles.css" /> 
+</head>
+<body>
+    <h1>Lista de TODOS</h1>
+
+    <!--formulario de filtro -->
+    <form class="filtros" th:action="@{/todos}" method="get">
+        <input type="text" name="tituloFiltro" placeholder="Filtrar por título"
+               th:value="${tituloFiltro}" />
+        <input type="text" name="usernameFiltro" placeholder="Filtrar por usuario"
+               th:value="${usernameFiltro}" />
+        <button type="submit">Filtrar</button>
+    </form>
+
+    <a class="titulo2" th:href="@{/todos/nuevo}">Crear nuevo TODO</a>
+
+    <table border="1" cellpadding="5" cellspacing="0">
+        <thead>
+            <tr>
+                <!--dentro del @{...} se usa |...| para delimitar una url que incluye tanto texto literal como expresiones de tthymeleaf. para ordenar:-->
+                <th>
+                    <a th:href="@{|/todos?page=0&sortBy=id&sortDir=${sortBy == 'id' && sortDir == 'asc' ? 'desc' : 'asc'}|}">
+                        ID
+                    </a>
+                </th>
+                <th>
+                    <a th:href="@{|/todos?page=0&sortBy=title&sortDir=${sortBy == 'title' && sortDir == 'asc' ? 'desc' : 'asc'}|}">
+                        Título
+                    </a>
+                </th>
+                <th>
+                    <a th:href="@{|/todos?page=0&sortBy=user.username&sortDir=${sortBy== 'user.username' && sortDir == 'asc' ? 'desc' : 'asc'}|}">
+                    Usuario
+                    </a>
+                </th>
+                <th>
+                    <a th:href="@{|/todos?page=0&sortBy=completed&sortDir=${sortBy== 'completed' && sortDir == 'asc' ? 'desc' : 'asc'}|}">
+                    Completado
+                    </a>
+                </th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="todo : ${todosPage.content}">
+                <td th:text="${todo.id}"></td>
+                <td th:text="${todo.title}"></td>
+                <td th:text="${todo.user.username}"></td>
+                <td>
+                    <input type="checkbox" disabled="disabled" th:checked="${todo.completed}" />
+                </td>
+                <td>
+                    <a th:href="@{/todos/editar/{id}(id=${todo.id})}">Editar</a> |
+                    <a th:href="@{/todos/borrar/{id}(id=${todo.id})}"
+                       onclick="return confirm('Are you sure? This operation cant be undone.');">
+                        Borrar
+                    </a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!--paginación: -->
+    <div>
+        Página: <span th:text="${todosPage.number + 1}"></span> / <span th:text="${todosPage.totalPages}"></span>
+    </div>
+    <div>
+        <ul style="list-style-type:none; padding-left: 0;">
+            <li th:if="${todosPage.hasPrevious()}" style="display:inline; margin-right:10px;">
+                <a th:href="@{|/todos?page=${todosPage.number - 1}&sortBy=${sortBy}&sortDir=${sortDir}&tituloFiltro=${tituloFiltro}&usernameFiltro=${usernameFiltro}|}">
+                    &lt; Anterior
+                </a>
+            </li>
+            <li th:if="${todosPage.hasNext()}" style="display:inline;">
+                <a th:href="@{|/todos?page=${todosPage.number + 1}&sortBy=${sortBy}&sortDir=${sortDir}&tituloFiltro=${tituloFiltro}&usernameFiltro=${usernameFiltro}|}">
+                    Siguiente &gt;
+                </a>
+            </li>
+        </ul>
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <title th:text="${todo.id != null} ? 'Editar TODO' : 'Crear TODO Nuevo'">Formulario TODO</title>
+    <link rel="stylesheet" href="/css/styles.css" />
+</head>
+<body>
+    <h1 th:text="${todo.id != null} ? 'Editar TODO' : 'Crear TODO Nuevo'"></h1>
+    
+    <!--en thymeleaf, esta línea está diciéndole a spring que trabaja con objeto tipo "todo".-->
+    <form th:action="@{/todos/guardar}" method="post" th:object="${todo}">
+        
+        <input type="hidden" th:field="*{id}" />
+        
+        <div class="form-group">
+            <label for="title">Título:</label>
+            <input type="text" id="title" th:field="*{title}" required />
+        </div>
+        
+        <div class="form-group">
+            <label for="completed">Completado:</label>
+            <input type="checkbox" id="completed" th:field="*{completed}" />
+        </div>
+        
+        <div class="form-group">
+            <label for="userId">Usuario:</label>
+            <select id="userId" name="userId" required>
+                <option value="" disabled th:selected="${todo.user == null}">-- Selecciona un usuario --</option>
+                <option th:each="user : ${usuarios}"
+                        th:value="${user.id}"
+                        th:text="${user.username}"
+                        th:selected="${todo.user != null && user.id == todo.user.id}">
+                </option>
+            </select>
+        </div>
+        
+        <div class="form-group">
+            <button type="submit">Guardar</button>
+            <a th:href="@{/todos}">Cancelar</a>
+        </div>
+    </form>
+</body>
+</html>

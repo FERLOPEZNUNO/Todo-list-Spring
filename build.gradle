@@ -1,0 +1,48 @@
+plugins {
+	id 'java'
+	id 'org.springframework.boot' version '3.5.3'
+	id 'io.spring.dependency-management' version '1.1.7'
+}
+
+group = 'com.todo'
+version = '0.0.1-SNAPSHOT'
+
+java {
+	toolchain {
+		languageVersion = JavaLanguageVersion.of(21)
+	}
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation 'org.junit.jupiter:junit-jupiter:5.10.0'
+	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+
+	//validaciones del modelo:
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
+	implementation 'jakarta.validation:jakarta.validation-api'
+    implementation 'org.hibernate.validator:hibernate-validator'
+
+	//driver de mysql:
+	runtimeOnly 'com.mysql:mysql-connector-j:8.4.0'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+	//dependencia para thymeleafd:  
+	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+}
+
+//para los testeos unitarios:
+tasks.named('test') {
+	useJUnitPlatform()
+
+	testLogging {
+        events "passed", "skipped", "failed"
+        showStandardStreams = true 
+    }
+}
